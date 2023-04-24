@@ -1,0 +1,41 @@
+Project: Todo app with statuses (to do, doing, done)
+
+Todo schema: {
+    id: ID,
+    content: {
+        title: String,
+        description: String
+    },
+    status: 'todo' | 'doing' | 'done',
+    createdAt: DateTime,
+    updatedAt: DateTime,
+    priority: 'low' | 'regular' | 'high'
+}
+
+Layout:
+1. Create 3 cols for todos with statuses (to do, doing, done) (R)
+2. Create form for adding todos (with "+ or Add" button) (C)
+3. Create template of todo card with info and (action button (start | finish | delete))* (U and D)
+
+Logic (flow steps):
+    Cols:
+        1. Create html markup for 3 cols with diff ids (todo-list, doing-list, done-list)
+        2. Find them via .getElementById(id) and save to vars (const)
+        3. Get an array with todos (for start we need to create the mock data with todos)
+        4. Create func for render items in cols (separate for statuses)
+        5. Render
+    Add form:
+        -create form with id in HTML;
+        -add input fields: title, description;
+        -add select field for priority;
+        -add button to the form with type "submit": create ToDo;
+        -find this form by id;
+        -create a function, which will create new ToDo acсording to our scheme;
+        -render;
+    Todo card actions:
+        -add buttons to each ToDo depending on the status! (Todo-List - Start, doing-list - finish, done-list -delete)
+        -create a function with event "click", which will change their status and afterwards delete from one colomn and add to another;  
+        -render;
+
+
+

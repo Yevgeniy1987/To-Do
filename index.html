@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="https://cdn.tailwindcss.com"></script>
+    <script defer src="./data.js"></script>
+    <script defer src="./app.js"></script>
+    <title>Todos app</title>
+</head>
+<body>
+    <div class="container">
+        <h1 >Todos app</h1>
+        <form id="create-form">
+            <h2>Create a new todo</h2>
+            <input type="text" name="title" required>
+            <textarea name="description"></textarea>
+            <button type="submit">Create</button>
+        </form>
+
+        <hr>
+
+        <div id="todos" class="flex justify-between gap-x-3">
+            <div id="todo-list" class="border p-3 flex flex-col gap-y-2"></div>
+            <div id="doing-list" class="border p-3 flex flex-col gap-y-2"></div>
+            <div id="done-list" class="border p-3 flex flex-col gap-y-2"></div>
+        </div>
+    </div>
+</body>
+</html>
