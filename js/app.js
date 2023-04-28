@@ -18,7 +18,45 @@ const todos = {
   done: TODOS.filter((todo) => todo.status === "done"),
 };
 
+//---------------------------------------------------------------------
+
+
+
+
 renderAllTodos(todoLists, todos);
+
+
+todosWrapper.addEventListener("click", (event) => {
+  const buttonActionType = event.target.dataset.action;
+
+  if (buttonActionType) {
+    const actionButtonElement = event.target;
+    const todoId = actionButtonElement.dataset.todoid;
+    const currentTodoIdx = TODOS.findIndex(todo => todo.id === Number(todoId))
+    const currentTodo = TODOS[currentTodoIdx];
+    
+    if (buttonActionType === "start" && currentTodo) {
+      currentTodo.status = "doing";
+    }
+
+    if (buttonActionType === "finish" && currentTodo) {
+      //here
+    }
+
+    if (buttonActionType === "delete" && currentTodo) {
+      //here
+    }
+
+    renderAllTodos(todoLists, todos);
+
+  }
+
+})
+
+
+
+
+//---------------------------------------------------------------------
 
 function renderAllTodos(lists, todos) {
   //   todos.todo = TODOS.filter((todo) => todo.status === 'todo');
@@ -42,27 +80,42 @@ function renderAllTodos(lists, todos) {
 function createTodoHTMLTemplate(todo) {
   let actionButton = "";
 
-  const { status } = todo;
+  const { id, status, content, createdAt, priority, updatedAt } = todo;
 
   if (status === "todo") {
-    actionButton = `<button data-action="start">Start</button>`;
+    actionButton = `<button class="bg-blue-200 border rounded py-1 px-3" data-action="start" data-todoid="${id}">Start</button>`;
   }
   if (status === "doing") {
-    actionButton = `<button data-action="finish">Finish</button>`;
+    actionButton = `<button class="bg-green-200  border rounded py-1 px-3" data-action="finish" data-todoid="${id}">Finish</button>`;
   }
   if (status === "done") {
-    actionButton = `<button data-action="delete">Delete</button>`;
+    actionButton = `<button class="bg-red-200 border rounded py-1 px-3" data-action="delete" data-todoid="${id}">Delete</button>`;
   }
 
-  const { id, content, createdAt, priority, updatedAt } = todo;
   const { title, description } = content;
 
-  return `<div class="border p-3">
-  <h2 class="title">${title}</h2>
-  <p class="description">${description}</p>
-  <span>${priority}</span>
-  <span>${createdAt}</span>
-  <span>${updatedAt}</span>
+  const formattedCreatedAt = new Date(createdAt).toLocaleString();
+  const formattedUpdatedAt = updatedAt ? new Date(updatedAt).toLocaleString() : '-';
+
+
+  return `<div class="border p-3 flex flex-col gap-3">
+  <h2 class="font-bold text-lg">${title}</h2>
+  <p>${description}</p>
+  <dl class="divide-y flex flex-col gap-1">
+    <div class="flex justify-between">
+      <dt>Priority:</dt>
+      <dd class="capitalize">${priority}</dd>
+    </div>
+    <div class="flex justify-between">
+      <dt>Created:</dt>
+      <dd>${formattedCreatedAt}</dd>
+    </div>
+    <div class="flex justify-between">
+      <dt>Updated:</dt>
+      <dd>${formattedUpdatedAt}</dd>
+    </div>
+  </dl>
+  
   ${actionButton}
   </div>`;
 }

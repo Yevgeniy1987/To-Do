@@ -5,12 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script defer src="https://cdn.tailwindcss.com"></script>
-    <script defer src="./data.js"></script>
-    <script defer src="./app.js"></script>
+    <script defer src="./js/data.js"></script>
+    <script defer src="./js/app.js"></script>
     <title>Todos app</title>
 </head>
 <body>
-    <div class="container">
+    <div class="container mx-auto">
         <h1 >Todos app</h1>
         <form id="create-form">
             <h2>Create a new todo</h2>
@@ -22,9 +22,18 @@
         <hr>
 
         <div id="todos" class="flex justify-between gap-x-3">
-            <div id="todo-list" class="border p-3 flex flex-col gap-y-2"></div>
-            <div id="doing-list" class="border p-3 flex flex-col gap-y-2"></div>
-            <div id="done-list" class="border p-3 flex flex-col gap-y-2"></div>
+            <div>
+                <h2 class="text-center font-bold text-xl">Todo</h2>
+                <div id="todo-list" class="mt-2 border p-3 flex flex-col gap-y-2"></div>
+            </div>
+            <div>
+                <h2 class="text-center font-bold text-xl">Doing</h2>
+                <div id="doing-list" class="mt-2 border p-3 flex flex-col gap-y-2"></div>
+            </div>
+            <div>
+                <h2 class="text-center font-bold text-xl">Done</h2>
+                <div id="done-list" class="mt-2 border p-3 flex flex-col gap-y-2"></div>
+            </div>
         </div>
     </div>
 </body>
