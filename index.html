@@ -12,11 +12,25 @@
 <body>
     <div class="container mx-auto">
         <h1 >Todos app</h1>
-        <form id="create-form">
-            <h2>Create a new todo</h2>
-            <input type="text" name="title" required>
-            <textarea name="description"></textarea>
-            <button type="submit">Create</button>
+        <form id="create-form" class="p-5 mb-5 mx-auto w-[300px] flex flex-col gap-3 border rounded">
+            <h2 class="text-center font-bold text-lg">Create a new todo</h2>
+            <label class="flex flex-col">
+                <span class="text-stone-500">Enter title</span>
+                <input class="border rounded" type="text" name="title" required>
+            </label>
+            <label class="flex flex-col">
+                <span class="text-stone-500">Enter description</span>
+                <textarea class="border rounded" name="description"></textarea>
+            </label>
+            <label class="flex flex-col">
+                <span class="text-stone-500">Choose priority</span>
+                <select class="border rounded" name="priority">
+                    <option value="low">Low</option>
+                    <option selected value="regular">Regular</option>
+                    <option value="high">High</option>
+                </select>
+            </label>
+            <button class="border bg-green-200 rounded py-1 px-3" type="submit">Create</button>
         </form>
 
         <hr>

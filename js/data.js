@@ -1,6 +1,6 @@
 const TODOS = [
   {
-    id: 1,
+    id: '1',
     content: {
       title: 'Finish writing blog post',
       description:
@@ -12,7 +12,7 @@ const TODOS = [
     priority: 'regular'
   },
   {
-    id: 2,
+    id: '2',
     content: {
       title: 'Buy groceries',
       description:
@@ -24,7 +24,7 @@ const TODOS = [
     priority: 'low'
   },
   {
-    id: 3,
+    id: '3',
     content: {
       title: 'Prepare presentation slides',
       description:
@@ -36,7 +36,7 @@ const TODOS = [
     priority: 'high'
   },
   {
-    id: 4,
+    id: '4',
     content: {
       title: 'Clean the house',
       description:
@@ -48,7 +48,7 @@ const TODOS = [
     priority: 'regular'
   },
   {
-    id: 5,
+    id: '5',
     content: {
       title: 'Schedule dentist appointment',
       description:
@@ -60,7 +60,7 @@ const TODOS = [
     priority: 'low'
   },
   {
-    id: 6,
+    id: '6',
     content: {
       title: 'Study for final exam',
       description:
@@ -72,7 +72,7 @@ const TODOS = [
     priority: 'high'
   },
   {
-    id: 7,
+    id: '7',
     content: {
       title: 'Plan vacation itinerary',
       description:
@@ -84,7 +84,7 @@ const TODOS = [
     priority: 'regular'
   },
   {
-    id: 8,
+    id: '8',
     content: {
       title: 'Attend networking event',
       description:
@@ -96,7 +96,7 @@ const TODOS = [
     priority: 'regular'
   },
   {
-    id: 9,
+    id: '9',
     content: {
       title: 'Exercise at the gym',
       description:
