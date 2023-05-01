@@ -46,36 +46,32 @@ createForm.addEventListener("submit", (event) => {
 
   renderAllTodos(todoLists, todos);
 
-  form.reset() 
-
+  form.reset();
 });
 
 todosWrapper.addEventListener("click", (event) => {
-  const buttonActionType = event.target.dataset.action;
+  const actionButtonType = event.target.dataset.action;
 
-  if (buttonActionType) {
-    const actionButtonElement = event.target;
-    const todoId = actionButtonElement.dataset.todoid;
-    const currentTodoIdx = TODOS.findIndex((todo) => todo.id === todoId);
-    const currentTodo = TODOS[currentTodoIdx];
+  if (actionButtonType) {
+    const currentActionButton = event.target;
+    const currentActionButtonId = currentActionButton.dataset.todoid;
+    const currentActionButtonIndx = TODOS.findIndex(
+      (todo) => todo.id === currentActionButtonId
+    );
 
-    if (buttonActionType === "start" && currentTodo) {
-      currentTodo.status = "doing";
-      currentTodo.updatedAt = new Date().toISOString();
+    const currentTodo = TODOS[currentActionButtonIndx];
+
+    if (actionButtonType === "start" && currentTodo) {
+      currentTodo.status === "doing";
+      currentTodo.updatedAt = new Date.toISOString();
     }
-
-    if (buttonActionType === "finish" && currentTodo) {
-      currentTodo.status = "done";
-      currentTodo.updatedAt = new Date().toISOString();
+    if (actionButtonType === "finish" && currentTodo) {
+      currentTodo.status === "done";
+      currentTodo.updatedAt = new Date.toISOString();
     }
-
-    if (buttonActionType === "delete" && currentTodo) {
-      //immutable
-      // TODOS = TODOS.filter(todo => todo.id !== todoId)
-      //mutable
-      TODOS.splice(currentTodoIdx, 1);
+    if (actionButtonType === "delete" && currentTodo) {
+      TODOS.splice(currentActionButtonIndx, 1);
     }
-
     renderAllTodos(todoLists, todos);
   }
 });
@@ -104,23 +100,22 @@ function renderAllTodos(lists, todos) {
 function createTodoHTMLTemplate(todo) {
   let actionButton = "";
 
-  const { id, status, content, createdAt, priority, updatedAt } = todo;
-
-  if (status === "todo") {
-    actionButton = `<button class="bg-blue-200 border rounded py-1 px-3" data-action="start" data-todoid="${id}">Start</button>`;
-  }
-  if (status === "doing") {
-    actionButton = `<button class="bg-green-200  border rounded py-1 px-3" data-action="finish" data-todoid="${id}">Finish</button>`;
-  }
-  if (status === "done") {
-    actionButton = `<button class="bg-red-200 border rounded py-1 px-3" data-action="delete" data-todoid="${id}">Delete</button>`;
-  }
+  const { id, content, status, updatedA, createdAt, priority } = todo;
 
   const { title, description } = content;
 
-  const formattedCreatedAt = new Date(createdAt).toLocaleString();
-  const formattedUpdatedAt = updatedAt
-    ? new Date(updatedAt).toLocaleString()
+  if (status === "todo") {
+    actionButton = `<button class="bg-blue-200 px-3 py-1 border rounded" data-action="start" data-todoid="${id}">Start</button>`;
+  }
+  if (status === "doing") {
+    actionButton = `<button class="bg-green-200 px-3 py-1 border rounded data-action="finish" data-todoid="${id}">Finish</button>`;
+  }
+  if (status === "done") {
+    actionButton = `<button class="bg-red-200 px-3 py-1 border rounded data-action="delete" data-todoid="${id}">Delete</button>`;
+  }
+  const formattedCreatedAt = new Date(createdAt).toLocaleDateString();
+  const formattedUpdatedAt = updatedA
+    ? new Date(updatedAt).toLocaleDateString()
     : "-";
 
   return `<div class="border p-3 flex flex-col gap-3">
