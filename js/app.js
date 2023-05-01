@@ -22,32 +22,33 @@ const todos = {
 
 renderAllTodos(todoLists, todos);
 
-createForm.addEventListener("submit", (event)=> {
+createForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  const form = event.target
+  const form = event.target;
 
-  const title = form.title.value
-  const description = form.description.value
-  const priority = form.priority.value
+  const title = form.title.value;
+  const description = form.description.value;
+  const priority = form.priority.value;
 
-  const newTodo = {
+  const newToDo = {
     id: window.crypto.randomUUID(),
     content: {
       title,
       description,
     },
-    status: 'todo',
+    status: "todo",
     createdAt: new Date().toISOString(),
     updatedAt: null,
     priority,
-  }
+  };
 
-  TODOS.push(newTodo)
+  TODOS.push(newToDo);
 
   renderAllTodos(todoLists, todos);
 
-  form.reset()
-})
+  form.reset() 
+
+});
 
 todosWrapper.addEventListener("click", (event) => {
   const buttonActionType = event.target.dataset.action;
@@ -55,31 +56,29 @@ todosWrapper.addEventListener("click", (event) => {
   if (buttonActionType) {
     const actionButtonElement = event.target;
     const todoId = actionButtonElement.dataset.todoid;
-    const currentTodoIdx = TODOS.findIndex(todo => todo.id === todoId)
+    const currentTodoIdx = TODOS.findIndex((todo) => todo.id === todoId);
     const currentTodo = TODOS[currentTodoIdx];
-    
+
     if (buttonActionType === "start" && currentTodo) {
       currentTodo.status = "doing";
-      currentTodo.updatedAt = new Date().toISOString(); 
+      currentTodo.updatedAt = new Date().toISOString();
     }
 
     if (buttonActionType === "finish" && currentTodo) {
       currentTodo.status = "done";
-      currentTodo.updatedAt = new Date().toISOString(); 
+      currentTodo.updatedAt = new Date().toISOString();
     }
 
     if (buttonActionType === "delete" && currentTodo) {
-      //immutable 
+      //immutable
       // TODOS = TODOS.filter(todo => todo.id !== todoId)
       //mutable
-      TODOS.splice(currentTodoIdx, 1)
+      TODOS.splice(currentTodoIdx, 1);
     }
 
     renderAllTodos(todoLists, todos);
   }
-})
-
-
+});
 
 //---------------------------------------------------------------------
 
@@ -120,8 +119,9 @@ function createTodoHTMLTemplate(todo) {
   const { title, description } = content;
 
   const formattedCreatedAt = new Date(createdAt).toLocaleString();
-  const formattedUpdatedAt = updatedAt ? new Date(updatedAt).toLocaleString() : '-';
-
+  const formattedUpdatedAt = updatedAt
+    ? new Date(updatedAt).toLocaleString()
+    : "-";
 
   return `<div class="border p-3 flex flex-col gap-3">
   <h2 class="font-bold text-lg">${title}</h2>
@@ -154,4 +154,3 @@ function renderTodoList(list, todos, clear) {
     list.insertAdjacentHTML("beforeend", todoHTML);
   });
 }
-   
