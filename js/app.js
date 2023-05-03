@@ -62,12 +62,12 @@ todosWrapper.addEventListener("click", (event) => {
     const currentTodo = TODOS[currentActionButtonIndx];
 
     if (actionButtonType === "start" && currentTodo) {
-      currentTodo.status === "doing";
-      currentTodo.updatedAt = new Date.toISOString();
+      currentTodo.status = "doing";
+      currentTodo.updatedAt = new Date().toISOString();
     }
     if (actionButtonType === "finish" && currentTodo) {
-      currentTodo.status === "done";
-      currentTodo.updatedAt = new Date.toISOString();
+      currentTodo.status = "done";
+      currentTodo.updatedAt = new Date().toISOString();
     }
     if (actionButtonType === "delete" && currentTodo) {
       TODOS.splice(currentActionButtonIndx, 1);
@@ -100,7 +100,7 @@ function renderAllTodos(lists, todos) {
 function createTodoHTMLTemplate(todo) {
   let actionButton = "";
 
-  const { id, content, status, updatedA, createdAt, priority } = todo;
+  const { id, content, status, updatedAt, createdAt, priority } = todo;
 
   const { title, description } = content;
 
@@ -108,13 +108,13 @@ function createTodoHTMLTemplate(todo) {
     actionButton = `<button class="bg-blue-200 px-3 py-1 border rounded" data-action="start" data-todoid="${id}">Start</button>`;
   }
   if (status === "doing") {
-    actionButton = `<button class="bg-green-200 px-3 py-1 border rounded data-action="finish" data-todoid="${id}">Finish</button>`;
+    actionButton = `<button class="bg-green-200 px-3 py-1 border rounded" data-action="finish" data-todoid="${id}">Finish</button>`;
   }
   if (status === "done") {
-    actionButton = `<button class="bg-red-200 px-3 py-1 border rounded data-action="delete" data-todoid="${id}">Delete</button>`;
+    actionButton = `<button class="bg-red-200 px-3 py-1 border rounded" data-action="delete" data-todoid="${id}">Delete</button>`;
   }
   const formattedCreatedAt = new Date(createdAt).toLocaleDateString();
-  const formattedUpdatedAt = updatedA
+  const formattedUpdatedAt = updatedAt
     ? new Date(updatedAt).toLocaleDateString()
     : "-";
 
