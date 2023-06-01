@@ -2,6 +2,10 @@ const createForm = document.getElementById("create-form");
 
 const todosWrapper = document.getElementById("todos");
 
+const URL_BASE = `http://localhost:3333`;
+
+let TODOS = [];
+
 // const todoList = document.getElementById('todo-list');
 // const doingList = document.getElementById('doing-list');
 // const doneList = document.getElementById('done-list');
@@ -20,7 +24,7 @@ const todos = {
 
 //---------------------------------------------------------------------
 
-renderAllTodos(todoLists, todos);
+workWithData("todos");
 
 createForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -31,7 +35,7 @@ createForm.addEventListener("submit", (event) => {
   const priority = form.priority.value;
 
   const newToDo = {
-    id: window.crypto.randomUUID(),
+    // id: window.crypto.randomUUID(),
     content: {
       title,
       description,
@@ -41,12 +45,17 @@ createForm.addEventListener("submit", (event) => {
     updatedAt: null,
     priority,
   };
-
-  TODOS.push(newToDo);
-
-  renderAllTodos(todoLists, todos);
-
-  form.reset();
+  fetch(`${URL_BASE}/todos`, {
+    method: "POST",
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+    body: JSON.stringify(newToDo),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      TODOS.push(data);
+      renderAllTodos(todoLists, todos);
+      form.reset();
+    });
 });
 
 todosWrapper.addEventListener("click", (event) => {
@@ -61,6 +70,26 @@ todosWrapper.addEventListener("click", (event) => {
 
     const currentTodo = TODOS[currentActionButtonIndx];
 
+    // fetch(`${URL_BASE}/todos/${currentTodo}`, {
+    //   method: "PATCH",
+    //   headers: {
+    //     "Content-type": "application/json; charset=UTF-8",
+    //   },
+    //   body: JSON.stringify({
+    //     status: "todo",
+    //   }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     if (data.ok) {
+    //       currentTodo.status = "doing";
+    //       currentTodo.updatedAt = new Date().toISOString();
+    //     }
+
+    //     TODOS = data;
+    //     renderAllTodos(todoLists, todos);
+    //   });
+
     if (actionButtonType === "start" && currentTodo) {
       currentTodo.status = "doing";
       currentTodo.updatedAt = new Date().toISOString();
@@ -69,10 +98,20 @@ todosWrapper.addEventListener("click", (event) => {
       currentTodo.status = "done";
       currentTodo.updatedAt = new Date().toISOString();
     }
-    if (actionButtonType === "delete" && currentTodo) {
-      TODOS.splice(currentActionButtonIndx, 1);
-    }
-    renderAllTodos(todoLists, todos);
+
+    fetch(`${URL_BASE}/todos/${currentActionButtonId}`, {
+      method: "DELETE",
+    }).then((res) => {
+      if (res.ok) {
+        TODOS.splice(currentActionButtonIndx, 1);
+        renderAllTodos(todoLists, todos);
+      }
+    });
+
+    // if (actionButtonType === "delete" && currentTodo) {
+    //   TODOS.splice(currentActionButtonIndx, 1);
+    // }
+    // renderAllTodos(todoLists, todos);
   }
 });
 
@@ -148,4 +187,92 @@ function renderTodoList(list, todos, clear) {
     const todoHTML = createTodoHTMLTemplate(todo);
     list.insertAdjacentHTML("beforeend", todoHTML);
   });
+}
+
+// function delayedAction(time, callback) {
+//   setTimeout(() => {
+//     callback();
+//   }, time);
+// }
+
+// delayedAction(1000, () => {
+//   document.body.style.background = "red";
+// });
+// delayedAction(3000, () => {
+//   document.body.style.background = "green";
+// });
+
+// function headsAndTails(callback) {
+//   setTimeout(() => {
+//     const r = Math.random() > 0.5 ? "heads" : "tails";
+//     callback(r);
+//   }, 3000);
+// }
+
+// headsAndTails((result) => {
+//   console.log(result, "Done");
+// });
+
+// headsAndTails((result) => {
+//   if (result === "heads") {
+//     document.body.style.backgroundColor = 'green';
+//   } else {
+//     document.body.style.backgroundColor = 'red';
+//   }
+// });
+
+// function headsOrTails(resolve, reject) {
+//   setTimeout(() => {
+//     const r = Math.random() > 0.5 ? "heads" : "tails";
+//     if (r === "heads") {
+//       resolve(r);
+//     } else {
+//       reject(r);
+//     }
+//   }, 3000);
+// }
+
+// headsOrTails(
+//   (result) => {
+//     document.body.style.backgroundColor = "green";
+//     console.log(`You won! It was ${result}`);
+//   },
+//   (error) => {
+//     document.body.style.backgroundColor = "red";
+//     console.log(`You lost! It was ${reject}`);
+//   }
+// );
+
+function headsAndTails() {
+  return new Promise(function (resolve, reject) {
+    setTimeout(() => {
+      const r = Math.random() > 0.5 ? "heads" : "tails";
+      if (r === "heads") {
+        resolve(r);
+      } else {
+        reject(r);
+      }
+    }, 5000);
+  });
+}
+
+const p = headsAndTails();
+
+p.then((result) => {
+  document.body.style.backgroundColor = "green";
+})
+  .catch((error) => {
+    document.body.style.backgroundColor = "red";
+  })
+  .finally(() => {
+    console.log("Game Over");
+  });
+
+function workWithData(path) {
+  fetch(`${URL_BASE}/${path}`)
+    .then((res) => res.json())
+    .then((data) => {
+      TODOS = data;
+      renderAllTodos(todoLists, todos);
+    });
 }
