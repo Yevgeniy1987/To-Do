@@ -70,50 +70,56 @@ todosWrapper.addEventListener("click", (event) => {
 
     const currentTodo = TODOS[currentActionButtonIndx];
 
-    fetch(`${URL_BASE}/todos/${currentActionButtonId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify({
-        status: "todo",
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.ok) {
-          const currentStatus = TODOS.slice(currentTodo.status);
-          TODOS.push(currentStatus.status==="doing");
-          currentTodo.updatedAt = new Date().toISOString();
-          TODOS = data;
+    if (
+      (actionButtonType === "start" || actionButtonType === "finish") &&
+      currentTodo
+    ) {
+      let newStatus = null;
+      if (actionButtonType === "start") {
+        newStatus = "doing";
+      }
+      if (actionButtonType === "finish") {
+        newStatus = "done";
+      }
+      fetch(`${URL_BASE}/todos/${currentActionButtonId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify({
+          status: newStatus,
+          updatedAt: new Date().toISOString(),
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          TODOS[currentActionButtonIndx] = data;
+          renderAllTodos(todoLists, todos);
+        });
+    }
+
+    if (actionButtonType === "delete" && currentTodo) {
+      fetch(`${URL_BASE}/todos/${currentActionButtonId}`, {
+        method: "DELETE",
+      }).then((res) => {
+        if (res.ok) {
+          TODOS.splice(currentActionButtonIndx, 1);
+
           renderAllTodos(todoLists, todos);
         }
       });
-
-    // if (actionButtonType === "start" && currentTodo) {
-    //   currentTodo.status = "doing";
-    //   currentTodo.updatedAt = new Date().toISOString();
-    // }
-    // if (actionButtonType === "finish" && currentTodo) {
-    //   currentTodo.status = "done";
-    //   currentTodo.updatedAt = new Date().toISOString();
-    // }
-
-    fetch(`${URL_BASE}/todos/${currentActionButtonId}`, {
-      method: "DELETE",
-    }).then((res) => {
-      if (res.ok) {
-        TODOS.splice(currentActionButtonIndx, 1);
-
-        renderAllTodos(todoLists, todos);
-      }
-    });
-
-    // if (actionButtonType === "delete" && currentTodo) {
-    //   TODOS.splice(currentActionButtonIndx, 1);
-    // }
-    // renderAllTodos(todoLists, todos);
+    }
   }
+
+  // fetch(`${URL_BASE}/todos/${currentActionButtonId}`, {
+  //   method: "DELETE",
+  // }).then((res) => {
+  //   if (res.ok) {
+  //     TODOS.splice(currentActionButtonIndx, 1);
+
+  //     renderAllTodos(todoLists, todos);
+  //   }
+  // });
 });
 
 //---------------------------------------------------------------------
@@ -244,30 +250,30 @@ function renderTodoList(list, todos, clear) {
 //   }
 // );
 
-function headsAndTails() {
-  return new Promise(function (resolve, reject) {
-    setTimeout(() => {
-      const r = Math.random() > 0.5 ? "heads" : "tails";
-      if (r === "heads") {
-        resolve(r);
-      } else {
-        reject(r);
-      }
-    }, 5000);
-  });
-}
+// function headsAndTails() {
+//   return new Promise(function (resolve, reject) {
+//     setTimeout(() => {
+//       const r = Math.random() > 0.5 ? "heads" : "tails";
+//       if (r === "heads") {
+//         resolve(r);
+//       } else {
+//         reject(r);
+//       }
+//     }, 5000);
+//   });
+// }
 
-const p = headsAndTails();
+// const p = headsAndTails();
 
-p.then((result) => {
-  document.body.style.backgroundColor = "green";
-})
-  .catch((error) => {
-    document.body.style.backgroundColor = "red";
-  })
-  .finally(() => {
-    console.log("Game Over");
-  });
+// p.then((result) => {
+//   document.body.style.backgroundColor = "green";
+// })
+//   .catch((error) => {
+//     document.body.style.backgroundColor = "red";
+//   })
+//   .finally(() => {
+//     console.log("Game Over");
+//   });
 
 function workWithData(path) {
   fetch(`${URL_BASE}/${path}`)
